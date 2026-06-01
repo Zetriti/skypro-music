@@ -30,6 +30,15 @@
 
 .nav__menu {
   display: block;
+  opacity: 0;
+  transform: translateY(-10px);
+  visibility: hidden;
+  transition: 0.3s;
+}
+
+.nav__menu.active {
+  opacity: 1;
+  transform: translateY(0);
   visibility: visible;
 }
 

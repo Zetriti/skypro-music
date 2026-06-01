@@ -326,10 +326,6 @@
   cursor: pointer;
 }
 
-.btn {
-  cursor: pointer;
-}
-
 .btnIcon:hover svg {
   fill: transparent;
   stroke: #acacac;
