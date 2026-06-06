@@ -1,18 +1,53 @@
+'use client';
+
 import { data } from '@/data';
 import styles from './track.module.css';
 import { formatTime } from '@/utils/helper';
 import Link from 'next/link';
+import { useAppDispatch, useAppSelector } from '@/store/store';
+import { setCurrentTrack, setIsPlay } from '@/store/features/trackSlice';
+import classNames from 'classnames';
 
 export default function Track() {
+  const dispatch = useAppDispatch();
+
+  const isPlay = useAppSelector((state) => state.tracks.isPlay);
+
+  const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
+
+  const currentTrackId = useAppSelector(
+    (state) => state.tracks.currentTrack?._id,
+  );
+
   return (
     <div className={styles.content__playlist}>
       {data.map((track) => (
-        <div key={track._id} className={styles.playlist__item}>
+        <div
+          key={track._id}
+          className={styles.playlist__item}
+          onClick={() => {
+            if (currentTrack?._id === track._id) {
+              dispatch(setIsPlay(!isPlay));
+            } else {
+              dispatch(setCurrentTrack(track));
+              dispatch(setIsPlay(true));
+            }
+          }}
+        >
           <div className={styles.playlist__track}>
             <div className={styles.track__title}>
               <div className={styles.track__titleImage}>
-                <svg className={styles.track__titleSvg}>
-                  <use xlinkHref="/img/icon/sprite.svg#icon-note"></use>
+                <svg
+                  className={classNames(styles.track__titleSvg, {
+                    [styles.track__selected]:
+                      currentTrack && currentTrackId === track._id,
+                    [styles.track__active]:
+                      isPlay === true && currentTrackId === track._id,
+                  })}
+                >
+                  {currentTrackId !== track._id && (
+                    <use xlinkHref="/img/icon/sprite.svg#icon-note"></use>
+                  )}
                 </svg>
               </div>
               <div className="track__title-text">
