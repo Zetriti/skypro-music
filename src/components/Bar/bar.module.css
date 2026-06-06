@@ -1,5 +1,4 @@
 .bar {
-  position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -320,10 +319,6 @@
   border-radius: 50%;
   position: relative;
   margin-top: -7px;
-}
-
-.btn {
-  cursor: pointer;
 }
 
 .btn {
