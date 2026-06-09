@@ -5,7 +5,11 @@ import styles from './track.module.css';
 import { formatTime } from '@/utils/helper';
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { setCurrentTrack, setIsPlay } from '@/store/features/trackSlice';
+import {
+  setCurrentPlaylist,
+  setCurrentTrack,
+  setIsPlay,
+} from '@/store/features/trackSlice';
 import classNames from 'classnames';
 
 export default function Track() {
@@ -26,6 +30,7 @@ export default function Track() {
           key={track._id}
           className={styles.playlist__item}
           onClick={() => {
+            dispatch(setCurrentPlaylist(data));
             if (currentTrack?._id === track._id) {
               dispatch(setIsPlay(!isPlay));
             } else {
