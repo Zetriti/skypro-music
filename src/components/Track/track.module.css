@@ -157,3 +157,7 @@
     transform: scale(1.5);
   }
 }
+
+.emptyMessage {
+  color: white;
+}

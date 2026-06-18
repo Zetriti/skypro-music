@@ -28,7 +28,7 @@ export default function Navigation() {
       <div className={`${styles.nav__menu} ${isOpen ? styles.active : ''}`}>
         <ul className={styles.menu__list}>
           <li className={styles.menu__item}>
-            <Link href="#" className={styles.menu__link}>
+            <Link href={'/music/main'} className={styles.menu__link}>
               Главное
             </Link>
           </li>
@@ -38,7 +38,7 @@ export default function Navigation() {
             </Link>
           </li>
           <li className={styles.menu__item}>
-            <Link href="../signin.html" className={styles.menu__link}>
+            <Link href={'/auth/signin'} className={styles.menu__link}>
               Войти
             </Link>
           </li>
