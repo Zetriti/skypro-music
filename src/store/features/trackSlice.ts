@@ -7,6 +7,10 @@ type initialStateType = {
   isShuffle: boolean;
   playlist: TrackType[];
   shaffledPlaylist: TrackType[];
+  favoriteTracks: TrackType[];
+  allTracks: TrackType[];
+  fetchError: null | string;
+  fetchIsLoading: boolean;
 };
 
 const initialState: initialStateType = {
@@ -15,6 +19,10 @@ const initialState: initialStateType = {
   playlist: [],
   isShuffle: false,
   shaffledPlaylist: [],
+  favoriteTracks: [],
+  allTracks: [],
+  fetchError: null,
+  fetchIsLoading: true,
 };
 
 const trackSlice = createSlice({
@@ -60,6 +68,31 @@ const trackSlice = createSlice({
         state.currentTrack = playlist[nextIndexTrack];
       }
     },
+    setFavoriteTracks: (state, action: PayloadAction<TrackType[]>) => {
+      state.favoriteTracks = action.payload;
+    },
+    addLikedTracks: (state, action: PayloadAction<TrackType>) => {
+      const exists = state.favoriteTracks.some(
+        (t) => t._id === action.payload._id,
+      );
+      if (!exists) {
+        state.favoriteTracks = [...state.favoriteTracks, action.payload];
+      }
+    },
+    removeLikedTracks: (state, action: PayloadAction<TrackType>) => {
+      state.favoriteTracks = state.favoriteTracks.filter(
+        (t) => t._id !== action.payload._id,
+      );
+    },
+    setAllTracks: (state, action: PayloadAction<TrackType[]>) => {
+      state.allTracks = action.payload;
+    },
+    setFeatchError: (state, action: PayloadAction<string>) => {
+      state.fetchError = action.payload;
+    },
+    setFeatchIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.fetchIsLoading = action.payload;
+    },
   },
 });
 
@@ -70,5 +103,11 @@ export const {
   setNextTrack,
   setBackTrack,
   toggleShuffle,
+  setAllTracks,
+  setFeatchError,
+  setFeatchIsLoading,
+  setFavoriteTracks,
+  addLikedTracks,
+  removeLikedTracks,
 } = trackSlice.actions;
 export const trackSliceReducer = trackSlice.reducer;

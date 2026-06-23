@@ -6,51 +6,58 @@ import { TrackType } from '@/shearedTypes/shearedTypes';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
+import { useAppSelector } from '@/store/store';
 
 export default function CategoryPage() {
   const params = useParams<{ id: string }>();
-  const id = params?.id;
-
+  const id = params.id;
+  const { allTracks, fetchIsLoading } = useAppSelector((state) => state.tracks);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorRes, setErrorRes] = useState<string | null>(null);
   const [tracks, setTracks] = useState<TrackType[]>([]);
-  const [title, setTitle] = useState('Треки');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [title, setTitle] = useState('');
+  const [trackIds, setTrackIds] = useState<number[] | null>(null);
 
   useEffect(() => {
-    if (!id) {
-      setLoading(false);
-      setError('ID не указан');
-      return;
-    }
+    if (!id) return;
+    setIsLoading(true);
+    setErrorRes(null);
 
     getSelect(id)
-      .then((res) => {
-        setTracks(res.tracks);
-        setTitle(res.name);
-        setError('');
+      .then(({ name, trackIds }) => {
+        setTitle(name);
+        setTrackIds(trackIds);
       })
-      .catch((err) => {
-        console.error('Ошибка загрузки:', err);
-        if (err instanceof AxiosError) {
-          if (err.response) {
-            setError(err.response.data?.message || 'Ошибка сервера');
-          } else if (err.request) {
-            setError('Пропал интернет');
-          } else {
-            setError('Неизвестная ошибка');
+      .catch((error) => {
+        if (error instanceof AxiosError)
+          if (error.response) {
+            setErrorRes(error.response.data);
+          } else if (error.request) {
+            setErrorRes('Ошибка выдачи');
           }
-        } else {
-          setError('Произошла ошибка при загрузке');
-        }
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [id]);
 
-  if (error) {
-    return (
-      <div style={{ color: 'white', padding: '20px' }}>Ошибка: {error}</div>
-    );
-  }
+  useEffect(() => {
+    if (trackIds && allTracks.length > 0) {
+      const filtered = allTracks.filter((track) =>
+        trackIds.includes(track._id),
+      );
+      setTracks(filtered);
+    }
+  }, [trackIds, allTracks]);
 
-  return <Centerblock tracks={tracks} title={title} loading={loading} />;
+  return (
+    <>
+      <Centerblock
+        tracks={tracks}
+        loading={isLoading}
+        errorRes={errorRes}
+        title={title}
+      />
+    </>
+  );
 }

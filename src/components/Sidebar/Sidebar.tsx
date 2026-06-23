@@ -5,25 +5,19 @@ import Link from 'next/link';
 import styles from './sidebar.module.css';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 export default function Sidebar() {
   const router = useRouter();
-
-  const [username, setUsername] = useState('Гость');
+  const username = useAppSelector((state) => state.auth.username);
 
   const handleLogout = () => {
-    localStorage.removeItem('username');
     router.push('/auth/signin');
   };
-
-  useEffect(() => {
-    const stored = localStorage.getItem('username');
-    if (stored) setUsername(stored);
-  }, []);
 
   return (
     <div className={styles.main__sidebar}>
       <div className={styles.sidebar__personal}>
-        <p className={styles.sidebar__personalName}>{username}</p>
+        <p className={styles.sidebar__personalName}>{username || 'Гость'}</p>
         <div onClick={handleLogout} className={styles.sidebar__icon}>
           <svg>
             <use xlinkHref="/img/icon/sprite.svg#logout"></use>
