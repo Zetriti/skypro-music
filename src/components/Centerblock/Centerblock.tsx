@@ -3,13 +3,24 @@ import styles from './centerblock.module.css';
 import Search from '../Search/Search';
 import Filter from '../Filter/Filter';
 import Track from '../Track/Track';
+import { TrackType } from '@/shearedTypes/shearedTypes';
 
-export default function Centerblock() {
+interface CenterblockProps {
+  tracks: TrackType[];
+  title?: string;
+  loading?: boolean;
+}
+
+export default function Centerblock({
+  tracks,
+  title = 'Треки',
+  loading = false,
+}: CenterblockProps) {
   return (
     <div className={styles.centerblock}>
       <Search />
-      <h2 className={styles.centerblock__h2}>Треки</h2>
-      <Filter />
+      <h2 className={styles.centerblock__h2}>{title}</h2>
+      <Filter tracks={tracks} />
       <div className={styles.centerblock__content}>
         <div className={styles.content__title}>
           <div className={classnames(styles.playlistTitle__col, styles.col01)}>
@@ -27,7 +38,11 @@ export default function Centerblock() {
             </svg>
           </div>
         </div>
-        <Track />
+        {loading ? (
+          <div className={styles.loadingMessage}>Загрузка...</div>
+        ) : (
+          <Track tracks={tracks} />
+        )}
       </div>
     </div>
   );

@@ -1,18 +1,18 @@
 import { TrackType } from '@/shearedTypes/shearedTypes';
-import { current } from '@reduxjs/toolkit';
 
 export function getUniqueValuesByKey(
-  arr: TrackType[],
+  arr: TrackType[] | null | undefined,
   key: keyof TrackType,
 ): string[] {
-  // Используем Set для хранения уникальных значений
+  if (!arr || !Array.isArray(arr) || arr.length === 0) {
+    return [];
+  }
+
   const uniqueValues = new Set<string>();
 
-  // Проходим по каждому объекту в массиве
   arr.forEach((item) => {
     const value = item[key];
 
-    // Если значение - массив строк
     if (Array.isArray(value)) {
       value.forEach((v) => {
         if (v != null) {
@@ -26,7 +26,6 @@ export function getUniqueValuesByKey(
     }
   });
 
-  // Преобразуем Set обратно в массив и возвращаем
   return Array.from(uniqueValues);
 }
 

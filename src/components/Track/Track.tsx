@@ -1,6 +1,5 @@
 'use client';
 
-import { data } from '@/data';
 import styles from './track.module.css';
 import { formatTime } from '@/utils/helper';
 import Link from 'next/link';
@@ -11,26 +10,32 @@ import {
   setIsPlay,
 } from '@/store/features/trackSlice';
 import classNames from 'classnames';
+import { TrackType } from '@/shearedTypes/shearedTypes';
 
-export default function Track() {
+interface TrackProps {
+  tracks: TrackType[];
+}
+
+export default function Track({ tracks }: TrackProps) {
   const dispatch = useAppDispatch();
-
   const isPlay = useAppSelector((state) => state.tracks.isPlay);
-
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
-
   const currentTrackId = useAppSelector(
     (state) => state.tracks.currentTrack?._id,
   );
 
+  if (!tracks || !Array.isArray(tracks) || tracks.length === 0) {
+    return <div className={styles.emptyMessage}>Нет доступных треков</div>;
+  }
+
   return (
     <div className={styles.content__playlist}>
-      {data.map((track) => (
+      {tracks.map((track) => (
         <div
           key={track._id}
           className={styles.playlist__item}
           onClick={() => {
-            dispatch(setCurrentPlaylist(data));
+            dispatch(setCurrentPlaylist(tracks)); // передаём весь массив
             if (currentTrack?._id === track._id) {
               dispatch(setIsPlay(!isPlay));
             } else {

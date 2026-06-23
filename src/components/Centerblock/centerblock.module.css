@@ -76,3 +76,10 @@
   width: 60px;
   text-align: end;
 }
+
+.loadingMessage {
+  color: white;
+  text-align: left;
+  padding: 20px 0;
+  font-size: 16px;
+}
