@@ -11,6 +11,7 @@ export default function Home() {
   return (
     <>
       <Centerblock
+        pagePlaylist={allTracks}
         tracks={allTracks}
         loading={fetchIsLoading}
         errorRes={fetchError}

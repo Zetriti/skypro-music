@@ -42,8 +42,6 @@ export default function Track({ track, tracks }: TrackProps) {
     toggleLike();
   };
 
-  console.log(isLike);
-
   return (
     <div className={styles.playlist__item} onClick={handleTrackClick}>
       <div className={styles.playlist__track}>

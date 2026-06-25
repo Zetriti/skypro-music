@@ -7,6 +7,7 @@ import Sidebar from '@/components/Sidebar/Sidebar';
 import Bar from '@/components/Bar/Bar';
 import FeatchingTracks from '@/components/FeatchingTracks/FeatchingTracks';
 import { iseInitAuth } from '@/hooks/useInitAuth';
+import { useResetFilters } from '@/hooks/useResetFilters';
 
 interface MusicLayoutProps {
   children: ReactNode;
@@ -14,6 +15,7 @@ interface MusicLayoutProps {
 
 export default function MusicLayout({ children }: MusicLayoutProps) {
   iseInitAuth();
+  useResetFilters();
   return (
     <>
       <div className={styles.wrapper}>
