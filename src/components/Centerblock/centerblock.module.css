@@ -77,6 +77,7 @@
   text-align: end;
 }
 
+.errorMessage,
 .loadingMessage {
   color: white;
   text-align: left;

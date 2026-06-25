@@ -8,16 +8,49 @@ export const getTracks = (): Promise<TrackType[]> => {
   });
 };
 
-export const getSelect = async (
-  id: string,
-): Promise<{ name: string; tracks: TrackType[] }> => {
-  const selectionRes = await axios(`${BASE_URL}/catalog/selection/${id}/`);
-  const selectionData = selectionRes.data.data;
-  const name = selectionData.name;
-  const trackIds = selectionData.items;
-  const allTracks = await getTracks();
-  const selectedTracks = allTracks.filter((track) =>
-    trackIds.includes(track._id),
+interface SelectionResponse {
+  data: {
+    name: string;
+    items: number[];
+  };
+}
+export const getSelect = async (id: string) => {
+  const selectionRes = await axios<SelectionResponse>(
+    `${BASE_URL}/catalog/selection/${id}/`,
   );
-  return { name, tracks: selectedTracks };
+  const selectionData = selectionRes.data.data;
+  return {
+    name: selectionData.name,
+    trackIds: selectionData.items.map((item) => Number(item)),
+  };
+};
+
+export const addLike = (access: string, id: number) => {
+  return axios.post(
+    BASE_URL + `/catalog/track/${id}/favorite/`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${access}`,
+      },
+    },
+  );
+};
+
+export const removeLike = (access: string, id: number) => {
+  return axios.delete(BASE_URL + `/catalog/track/${id}/favorite/`, {
+    headers: {
+      Authorization: `Bearer ${access}`,
+    },
+  });
+};
+
+export const getFavoriteTracks = (access: string): Promise<TrackType[]> => {
+  return axios
+    .get(BASE_URL + '/catalog/track/favorite/all/', {
+      headers: {
+        Authorization: `Bearer ${access}`,
+      },
+    })
+    .then((res) => res.data.data);
 };

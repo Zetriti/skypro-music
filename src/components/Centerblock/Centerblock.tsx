@@ -6,14 +6,16 @@ import Track from '../Track/Track';
 import { TrackType } from '@/shearedTypes/shearedTypes';
 
 interface CenterblockProps {
+  errorRes: string | null;
   tracks: TrackType[];
   title?: string;
   loading?: boolean;
 }
 
 export default function Centerblock({
+  errorRes,
   tracks,
-  title = 'Треки',
+  title = '',
   loading = false,
 }: CenterblockProps) {
   return (
@@ -38,10 +40,14 @@ export default function Centerblock({
             </svg>
           </div>
         </div>
-        {loading ? (
+        {errorRes ? (
+          <div className={styles.errorMessage}>{errorRes}</div>
+        ) : loading ? (
           <div className={styles.loadingMessage}>Загрузка...</div>
         ) : (
-          <Track tracks={tracks} />
+          tracks.map((track) => (
+            <Track key={track._id} track={track} tracks={tracks} />
+          ))
         )}
       </div>
     </div>
