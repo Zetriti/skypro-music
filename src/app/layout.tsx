@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import './globals.css';
 import ReduxProvider from '@/store/ReduxProvider';
+import NetworkErrorWrapper from '@/components/NetworkError/NetworkErrorWrapper';
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',
@@ -21,7 +22,9 @@ export default function RootLayout({
   return (
     <html lang="ru" className={`${montserrat.variable}`}>
       <ReduxProvider>
-        <body>{children}</body>
+        <body>
+          <NetworkErrorWrapper>{children} </NetworkErrorWrapper>
+        </body>
       </ReduxProvider>
     </html>
   );

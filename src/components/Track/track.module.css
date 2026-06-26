@@ -117,12 +117,15 @@
 }
 
 .track__timeSvg {
-  width: 14px;
-  height: 12px;
-  margin-right: 17px;
+  width: 16px;
+  height: 14px;
+  margin-right: 12px;
   fill: transparent;
-  stroke: #696969;
+  stroke: #4e4e4e;
   cursor: pointer;
+}
+.liked {
+  stroke: #b672ff;
 }
 
 .track__timeText {
