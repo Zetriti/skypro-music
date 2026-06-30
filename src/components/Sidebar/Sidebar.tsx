@@ -3,22 +3,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './sidebar.module.css';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '@/store/store';
+import { useAppSelector } from '@/store/store';
+import { useLogout } from '@/hooks/useLogout';
+
 export default function Sidebar() {
-  const router = useRouter();
   const username = useAppSelector((state) => state.auth.username);
 
-  const handleLogout = () => {
-    router.push('/auth/signin');
-  };
+  const logout = useLogout();
 
   return (
     <div className={styles.main__sidebar}>
       <div className={styles.sidebar__personal}>
         <p className={styles.sidebar__personalName}>{username || 'Гость'}</p>
-        <div onClick={handleLogout} className={styles.sidebar__icon}>
+        <div onClick={logout} className={styles.sidebar__icon}>
           <svg>
             <use xlinkHref="/img/icon/sprite.svg#logout"></use>
           </svg>

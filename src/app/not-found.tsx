@@ -12,19 +12,15 @@ import Bar from '@/components/Bar/Bar';
 import FeatchingTracks from '@/components/FeatchingTracks/FeatchingTracks';
 import { iseInitAuth } from '@/hooks/useInitAuth';
 import { useResetFilters } from '@/hooks/useResetFilters';
-import { useRouter } from 'next/navigation';
+import { useLogout } from '@/hooks/useLogout';
 
 export default function NotFound() {
   iseInitAuth();
   useResetFilters();
   const dispatch = useAppDispatch();
   const [username, setUsername] = useState('Гость');
+  const logout = useLogout();
 
-  const router = useRouter();
-
-  const handleLogout = () => {
-    router.push('/auth/signin');
-  };
   useEffect(() => {
     dispatch(resetFilters());
 
@@ -69,7 +65,7 @@ export default function NotFound() {
           <div className={styles.sidebarWithoutPlaylists}>
             <div className={styles.sidebarPersonal}>
               <p className={styles.sidebarPersonalName}>{username}</p>
-              <div onClick={handleLogout} className={styles.sidebar__icon}>
+              <div onClick={logout} className={styles.sidebar__icon}>
                 <svg>
                   <use xlinkHref="/img/icon/sprite.svg#logout"></use>
                 </svg>

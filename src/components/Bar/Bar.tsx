@@ -33,7 +33,7 @@ export default function Bar() {
   const [duration, setDuration] = useState(0);
   const [volume, setvolume] = useState(0.5);
   const [isLoad, setIsLoad] = useState(false);
-  const [isShuffle, setIsShuffle] = useState(false);
+  const isShuffle = useAppSelector((state) => state.tracks.isShuffle);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -80,7 +80,6 @@ export default function Bar() {
 
   const toggleShuffleTrack = () => {
     dispatch(toggleShuffle());
-    setIsShuffle(!isShuffle);
   };
 
   const onEndedTrack = () => {
@@ -234,10 +233,7 @@ export default function Bar() {
                   className={classnames(styles.trackPlay__like, styles.btnIcon)}
                   onClick={handleLikeClick}
                 >
-                  <svg
-                    className={styles.trackPlay__likeSvg}
-                    onClick={handleLikeClick}
-                  >
+                  <svg className={styles.trackPlay__likeSvg}>
                     <use
                       xlinkHref={`/img/icon/sprite.svg#${isLike ? 'icon-dislike' : 'icon-like'}`}
                     />
