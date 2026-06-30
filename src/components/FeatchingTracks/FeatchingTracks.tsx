@@ -10,11 +10,13 @@ import {
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import { useEffect } from 'react';
 import { AxiosError } from 'axios';
+import { withReauth } from '@/utils/withReAuth';
 
 export default function FeatchingTracks() {
   const dispatch = useAppDispatch();
   const { allTracks } = useAppSelector((state) => state.tracks);
   const access = useAppSelector((state) => state.auth.access);
+  const refresh = useAppSelector((state) => state.auth.refresh);
 
   useEffect(() => {
     if (allTracks.length === 0) {
@@ -44,17 +46,22 @@ export default function FeatchingTracks() {
 
   useEffect(() => {
     if (access) {
-      getFavoriteTracks(access)
+      withReauth(
+        (newToken) => getFavoriteTracks(newToken || access),
+        refresh,
+        dispatch,
+      )
         .then((favorites) => {
-          dispatch(setFavoriteTracks(favorites));
+          dispatch(setFavoriteTracks(favorites || []));
         })
         .catch((error) => {
           console.error('Ошибка загрузки избранного:', error);
+          dispatch(setFavoriteTracks([]));
         });
     } else {
       dispatch(setFavoriteTracks([]));
     }
-  }, [access, dispatch]);
+  }, [access, refresh, dispatch]);
 
   return null;
 }

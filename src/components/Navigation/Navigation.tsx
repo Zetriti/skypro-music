@@ -4,24 +4,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './navigation.module.css';
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@/store/store';
-import { clearUser } from '@/store/features/authSlice';
-import { useRouter } from 'next/navigation';
+import { useAppSelector } from '@/store/store';
+import { useLogout } from '@/hooks/useLogout';
 
 export default function Navigation() {
-  const dispatch = useAppDispatch();
-  const router = useRouter();
   const [isOpen, setOpen] = useState(false);
+  const logout = useLogout();
 
   const access = useAppSelector((state) => state.auth.access);
 
-  const logout = () => {
-    dispatch(clearUser());
-    router.push('/music/main');
-  };
-
   const goToLogin = () => {
-    router.push('/auth/signin');
+    logout();
   };
 
   return (

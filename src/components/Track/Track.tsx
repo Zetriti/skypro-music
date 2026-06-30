@@ -42,8 +42,6 @@ export default function Track({ track, tracks }: TrackProps) {
     toggleLike();
   };
 
-  console.log(isLike);
-
   return (
     <div className={styles.playlist__item} onClick={handleTrackClick}>
       <div className={styles.playlist__track}>
@@ -80,10 +78,13 @@ export default function Track({ track, tracks }: TrackProps) {
           </Link>
         </div>
         <div className="track__time">
-          <svg className={styles.track__timeSvg} onClick={handleLikeClick}>
-            <use
-              xlinkHref={`/img/icon/sprite.svg#${isLike ? 'icon-dislike' : 'icon-like'}`}
-            ></use>
+          <svg
+            className={classNames(styles.track__timeSvg, {
+              [styles.liked]: isLike,
+            })}
+            onClick={handleLikeClick}
+          >
+            <use xlinkHref={`/img/icon/sprite.svg#icon-like`}></use>
           </svg>
           <span className={styles.track__timeText}>
             {formatTime(track.duration_in_seconds)}

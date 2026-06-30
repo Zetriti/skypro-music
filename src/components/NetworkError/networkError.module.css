@@ -1,0 +1,97 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+}
+
+.modal {
+  width: 472px;
+  height: 406px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.iconWrapper {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.icon {
+  display: block;
+  width: 120px;
+  height: 120px;
+}
+
+.title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 38px;
+  white-space: nowrap;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -0.05px;
+  white-space: nowrap;
+  text-align: center;
+  color: #000000;
+  margin-bottom: 36px;
+}
+
+.retryButton {
+  padding: 12px 39px 16px 45px;
+  min-width: 178px;
+  min-height: 52px;
+  border-radius: 6px;
+  background: #580ea2;
+  border: none;
+  cursor: pointer;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.retryButton:hover {
+  background: #a05ce0;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(182, 114, 255, 0.3);
+}
+
+.retryButton:active {
+  transform: translateY(0);
+}

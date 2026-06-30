@@ -53,6 +53,7 @@ export default function CategoryPage() {
   return (
     <>
       <Centerblock
+        pagePlaylist={tracks}
         tracks={tracks}
         loading={isLoading}
         errorRes={errorRes}

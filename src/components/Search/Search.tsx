@@ -2,14 +2,18 @@
 
 import { useState } from 'react';
 import styles from './search.module.css';
+import { useAppDispatch } from '@/store/store';
+import { setSearchString } from '@/store/features/trackSlice';
 
 export default function Search() {
+  const dispatch = useAppDispatch();
   const [searchInput, setSearchInput] = useState('');
 
   const onSearchInput = (
     e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
   ) => {
     setSearchInput(e.target.value);
+    dispatch(setSearchString(e.target.value));
   };
   return (
     <div className={styles.centerblock__search}>

@@ -30,6 +30,10 @@ export function getUniqueValuesByKey(
 }
 
 export function formatTime(time: number) {
+  if (time < 0) {
+    return '0:00';
+  }
+
   const minutes = Math.floor(time / 60);
   const inputSeconds = Math.floor(time % 60);
   const outputSeconds = inputSeconds < 10 ? `0${inputSeconds}` : inputSeconds;
@@ -41,7 +45,17 @@ export const getTimePanel = (
   currentTime: number,
   totalTime: number | undefined,
 ) => {
-  if (totalTime) {
+  if (totalTime !== undefined && totalTime !== null) {
     return `${formatTime(currentTime)} / ${formatTime(totalTime)}`;
   }
+  return undefined;
 };
+
+export function searchTracks(query: string, arr: TrackType[]): TrackType[] {
+  if (!query.trim()) {
+    return arr;
+  }
+  return arr.filter((track) =>
+    track.name.toLowerCase().includes(query.toLowerCase().trim()),
+  );
+}

@@ -5,6 +5,7 @@ import { TrackType } from '@/shearedTypes/shearedTypes';
 import { addLikedTracks, removeLikedTracks } from '@/store/features/trackSlice';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import { withReauth } from '@/utils/withReAuth';
+import { AxiosError } from 'axios';
 import { useState } from 'react';
 
 type returnTypeHook = {
@@ -27,7 +28,8 @@ export const useLikeTrack = (track: TrackType | null): returnTypeHook => {
     if (isLoading) return;
 
     if (!access) {
-      return setErrorMsg('Нет авторизации');
+      setErrorMsg('Нет авторизации');
+      return;
     }
 
     const actionApi = isLike ? removeLike : addLike;
@@ -44,11 +46,23 @@ export const useLikeTrack = (track: TrackType | null): returnTypeHook => {
         .then(() => {
           dispatch(actionSlice(track));
         })
+        .catch((error) => {
+          if (error instanceof AxiosError) {
+            if (error.response) {
+              setErrorMsg(error.response.data.message || 'Ошибка сервера');
+            } else if (error.request) {
+              setErrorMsg('Произошла ошибка. Попробуйте позже');
+            } else {
+              setErrorMsg('Неизвестная ошибка');
+            }
+          }
+        })
         .finally(() => {
           setIsLoading(false);
         });
     }
   };
+
   return {
     isLoading,
     errorMsg,
